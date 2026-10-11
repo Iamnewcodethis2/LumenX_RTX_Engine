@@ -1,50 +1,509 @@
---[[ Protected by Lua Guard ]]
+--[[
+    LumenX RTX Engine [UI Library Edition]
+    Active Presets: Photorealism DSLR & Golden Hour Sunset
+--]]
 
-( function (...) local Lighting = game:GetService("\076\105\103\104\116\105\110\103") local _IllIlIIIlI = game:GetService("\087\111\114\107\115\112\097\099\101") local Players = game:GetService("\080\108\097\121\101\114\115") local StarterGui = game:GetService("\083\116\097\114\116\101\114\071\117\105") local UserInputService = game:GetService("\085\115\101\114\073\110\112\117\116\083\101\114\118\105\099\101") local RunService = game:GetService("\082\117\110\083\101\114\118\105\099\101") local _llllllllIl = Players.LocalPlayer or Players.PlayerAdded:Wait() local _IIllllllII = nil if gethui then _IIllllllII = gethui() elseif game:GetService("\067\111\114\101\071\117\105"):FindFirstChild("\082\111\098\108\111\120\071\117\105") then _IIllllllII = game:GetService("\067\111\114\101\071\117\105") else _IIllllllII = _llllllllIl:WaitForChild("\080\108\097\121\101\114\071\117\105") end
- local function _llIlllIlll(_IIlIIlIIII, text) pcall( function () StarterGui:SetCore("\083\101\110\100\078\111\116\105\102\105\099\097\116\105\111\110", { Title = _IIlIIlIIII, Text = text, Duration = 0x2 }) end
- ) end
- local _IlllIllIIl = Lighting:FindFirstChild("\076\117\109\101\110\088\095\082\084\088") if not _IlllIllIIl then _IlllIllIIl = Instance.new("\070\111\108\100\101\114") _IlllIllIIl.Name = "\076\117\109\101\110\088\095\082\084\088" _IlllIllIIl.Parent = Lighting end
- local _llIIIIlIlI = { Brightness = Lighting.Brightness, ExposureCompensation = Lighting.ExposureCompensation, Ambient = Lighting.Ambient, OutdoorAmbient = Lighting.OutdoorAmbient, GlobalShadows = Lighting.GlobalShadows, ClockTime = Lighting.ClockTime, ShadowSoftness = Lighting.ShadowSoftness } local _IlllIlIlII = { Photorealism = { Brightness = 2.6, Exposure = 0.18, Ambient = Color3.fromRGB(0xC, 0xE, 0x14), OutdoorAmbient = Color3.fromRGB(0x28, 0x2D, 0x37), ClockTime = 16.2, ShadowSoftness = 0.1, Bloom = { Intensity = 0.45, Size = 0x18, Threshold = 0.78 }, CC = { Brightness = 0.03, Contrast = 0.38, Saturation = 0.22, Tint = Color3.fromRGB(0xFF, 0xF6, 0xEB) }, Atmosphere = { Density = 0.28, Offset = 0.4, Color = Color3.fromRGB(0xC3, 0xAF, 0xA0), Glare = 0.55, Haze = 1.2 }, SunRays = { Intensity = 0.25, Spread = 0.9 } }, GoldenHour = { Brightness = 2.8, Exposure = 0.22, Ambient = Color3.fromRGB(0x19, 0x12, 0xF), OutdoorAmbient = Color3.fromRGB(0x4B, 0x32, 0x28), ClockTime = 17.2, ShadowSoftness = 0.08, Bloom = { Intensity = 0.65, Size = 0x1E, Threshold = 0.7 }, CC = { Brightness = 0.04, Contrast = 0.42, Saturation = 0.35, Tint = Color3.fromRGB(0xFF, 0xE1, 0xBE) }, Atmosphere = { Density = 0.32, Offset = 0.5, Color = Color3.fromRGB(0xE6, 0xA0, 0x78), Glare = 0.85, Haze = 1.5 }, SunRays = { Intensity = 0.38, Spread = 0.95 } } } local function _lIllIIIIIl() local _llllIlIIII = Lighting:FindFirstChild("\082\084\088\095\067\117\115\116\111\109\083\107\121") if _llllIlIIII then _llllIlIIII:Destroy() end
- end
- local function _lIlIlIIIII(skyData) _lIllIIIIIl() local _IIIlIIlIll = Instance.new("\083\107\121") _IIIlIIlIll.Name = "\082\084\088\095\067\117\115\116\111\109\083\107\121" if type(skyData) == "\115\116\114\105\110\103" then local _llIllIlIll = "\114\098\120\097\115\115\101\116\105\100\058\047\047" .. skyData:gsub("\037\068", "") _IIIlIIlIll.SkyboxBk = _llIllIlIll; _IIIlIIlIll.SkyboxDn = _llIllIlIll; _IIIlIIlIll.SkyboxFt = _llIllIlIll _IIIlIIlIll.SkyboxLf = _llIllIlIll; _IIIlIIlIll.SkyboxRt = _llIllIlIll; _IIIlIIlIll.SkyboxUp = _llIllIlIll elseif type(skyData) == "\116\097\098\108\101" then _IIIlIIlIll.SkyboxBk = skyData.Bk; _IIIlIIlIll.SkyboxDn = skyData.Dn; _IIIlIIlIll.SkyboxFt = skyData.Ft _IIIlIIlIll.SkyboxLf = skyData.Lf; _IIIlIIlIll.SkyboxRt = skyData.Rt; _IIIlIIlIll.SkyboxUp = skyData.Up end
- _IIIlIIlIll.Parent = Lighting _llIlllIlll("\083\107\121\098\111\120", "\065\112\112\108\105\101\100\032\067\117\115\116\111\109\032\083\107\121\098\111\120") end
- local function _IIllllIIII(presetName) local _lIlIllIlll = _IlllIlIlII[presetName] or _IlllIlIlII.Photorealism _IlllIllIIl:ClearAllChildren() _lIllIIIIIl() Lighting.GlobalShadows = true Lighting.Brightness = _lIlIllIlll.Brightness Lighting.ExposureCompensation = _lIlIllIlll.Exposure Lighting.Ambient = _lIlIllIlll.Ambient Lighting.OutdoorAmbient = _lIlIllIlll.OutdoorAmbient Lighting.ClockTime = _lIlIllIlll.ClockTime Lighting.ShadowSoftness = _lIlIllIlll.ShadowSoftness local _lllllIllII = Instance.new("\067\111\108\111\114\067\111\114\114\101\099\116\105\111\110\069\102\102\101\099\116", _IlllIllIIl) _lllllIllII.Name = "\082\084\088\095\067\067" _lllllIllII.Brightness = _lIlIllIlll.CC.Brightness _lllllIllII.Contrast = _lIlIllIlll.CC.Contrast _lllllIllII.Saturation = _lIlIllIlll.CC.Saturation _lllllIllII.TintColor = _lIlIllIlll.CC.Tint local _IllIllIllI = Instance.new("\066\108\111\111\109\069\102\102\101\099\116", _IlllIllIIl) _IllIllIllI.Name = "\082\084\088\095\066\108\111\111\109" _IllIllIllI.Intensity = _lIlIllIlll.Bloom.Intensity _IllIllIllI.Size = _lIlIllIlll.Bloom.Size _IllIllIllI.Threshold = _lIlIllIlll.Bloom.Threshold local _lIlIllllll = Instance.new("\065\116\109\111\115\112\104\101\114\101", _IlllIllIIl) _lIlIllllll.Name = "\082\084\088\095\065\116\109\111\115\112\104\101\114\101" _lIlIllllll.Density = _lIlIllIlll.Atmosphere.Density _lIlIllllll.Offset = _lIlIllIlll.Atmosphere.Offset _lIlIllllll.Color = _lIlIllIlll.Atmosphere.Color _lIlIllllll.Glare = _lIlIllIlll.Atmosphere.Glare _lIlIllllll.Haze = _lIlIllIlll.Atmosphere.Haze if _lIlIllIlll.SunRays then local _lIllIIIIIl = Instance.new("\083\117\110\082\097\121\115\069\102\102\101\099\116", _IlllIllIIl) _lIllIIIIIl.Name = "\082\084\088\095\083\117\110\082\097\121\115" _lIllIIIIIl.Intensity = _lIlIllIlll.SunRays.Intensity _lIllIIIIIl.Spread = _lIlIllIlll.SunRays.Spread end
- _llIlllIlll("\076\117\109\101\110\088\032\069\110\103\105\110\101", "\076\111\097\100\101\100\032\080\114\101\115\101\116\058\032" .. presetName) end
- local _IlIIIllIII = nil local function _IIIIIlIIIl() if _IlIIIllIII then _IlIIIllIII:Disconnect() _IlIIIllIII = nil _llIlllIlll("\068\121\110\097\109\105\099\032\067\121\099\108\101", "\068\097\121\045\078\105\103\104\116\032\067\121\099\108\101\058\032\080\065\085\083\069\068") else _IlIIIllIII = RunService.Heartbeat:Connect( function (dt) Lighting.ClockTime = (Lighting.ClockTime + (dt * 0.15)) % 0x18 end
- ) _llIlllIlll("\068\121\110\097\109\105\099\032\067\121\099\108\101", "\068\097\121\045\078\105\103\104\116\032\067\121\099\108\101\058\032\082\085\078\078\073\078\071") end
- end
- local _IllllIIlIl = { 0.25, 0.40, 0.55 } local _IlIIllIlIl = 0x1 local function _IlIllllllI() _IlIIllIlIl = (_IlIIllIlIl % #_IllllIIlIl) + 0x1 local _lllllIllII = _IlllIllIIl:FindFirstChild("\082\084\088\095\067\067") if _lllllIllII then _lllllIllII.Contrast = _IllllIIlIl[_IlIIllIlIl] _llIlllIlll("\067\111\110\116\114\097\115\116", "\067\111\110\116\114\097\115\116\032\076\101\118\101\108\058\032" .. tostring(_IllllIIlIl[_IlIIllIlIl])) end
- end
- local _lIIIIIIlII = false local function _llIIllIlIl() _lIIIIIIlII = not _lIIIIIIlII task.spawn( function () local _IIIIlIllll = 0x0 local _lIllIIIIll = _IllIlIIIlI:GetDescendants() for i = 0x1, #_lIllIIIIll do local _IIIlllIIll = _lIllIIIIll[i] if _IIIlllIIll:IsA("\080\111\105\110\116\076\105\103\104\116") or _IIIlllIIll:IsA("\083\112\111\116\076\105\103\104\116") or _IIIlllIIll:IsA("\083\117\114\102\097\099\101\076\105\103\104\116") then pcall( function () if _lIIIIIIlII then _IIIlllIIll.Brightness = _IIIlllIIll.Brightness * 2.2 _IIIlllIIll.Range = _IIIlllIIll.Range * 1.5 else _IIIlllIIll.Brightness = _IIIlllIIll.Brightness / 2.2 _IIIlllIIll.Range = _IIIlllIIll.Range / 1.5 end
- _IIIIlIllll = _IIIIlIllll + 0x1 end
- ) end
- end
- _llIlllIlll("\076\105\103\104\116\032\066\111\111\115\116\101\114", _lIIIIIIlII and ("\066\111\111\115\116\101\100\032" .. tostring(_IIIIlIllll) .. "\032\076\105\103\104\116\115") or "\082\101\115\116\111\114\101\100\032\076\105\103\104\116\115") end
- ) end
- local function _llIlIllIll() pcall( function () local _lIllIIIIII = _IllIlIIIlI:FindFirstChildOfClass("\084\101\114\114\097\105\110") if _lIllIIIIII then _lIllIIIIII.WaterColor = Color3.fromRGB(0x8, 0x4B, 0x6E) _lIllIIIIII.WaterTransparency = 0.4 _lIllIIIIII.WaterReflectance = 1.0 _lIllIIIIII.WaterWaveSize = 0.32 _lIllIIIIII.WaterWaveSpeed = 0x14 end
- end
- ) _llIlllIlll("\087\097\116\101\114\032\069\110\103\105\110\101", "\079\099\101\097\110\032\080\104\121\115\105\099\115\032\065\112\112\108\105\101\100") end
- local function _lllIIllIII() if _IlIIIllIII then _IlIIIllIII:Disconnect() _IlIIIllIII = nil end
- _IlllIllIIl:ClearAllChildren() _lIllIIIIIl() for prop, val in pairs(_llIIIIlIlI) do pcall( function () Lighting[prop] = val end
- ) end
- _llIlllIlll("\076\117\109\101\110\088\032\069\110\103\105\110\101", "\082\101\115\116\111\114\101\100\032\071\097\109\101\032\068\101\102\097\117\108\116\115") end
- local function _lIllIIlIII(guiObject, handleObject) local _IIIIIlIlll = handleObject or guiObject local _IllIIIIllI = false local _IIIIlIlIll, startPos _IIIIIlIlll.InputBegan:Connect( function (input) if input.UserInputType == Enum.UserInputType.MouseButton1 or input.UserInputType == Enum.UserInputType.Touch then _IllIIIIllI = true _IIIIlIlIll = input.Position startPos = guiObject.Position end
- end
- ) _IIIIIlIlll.InputEnded:Connect( function (input) if input.UserInputType == Enum.UserInputType.MouseButton1 or input.UserInputType == Enum.UserInputType.Touch then _IllIIIIllI = false end
- end
- ) UserInputService.InputChanged:Connect( function (input) if _IllIIIIllI and (input.UserInputType == Enum.UserInputType.MouseMovement or input.UserInputType == Enum.UserInputType.Touch) then local _IlllllIIII = input.Position - _IIIIlIlIll guiObject.Position = UDim2.new( startPos.X.Scale, startPos.X.Offset + _IlllllIIII.X, startPos.Y.Scale, startPos.Y.Offset + _IlllllIIII.Y ) end
- end
- ) end
- local _IlIlIIlIll = "\076\117\109\101\110\088\095\085\073\076\105\098\114\097\114\121\095\085\073" if _IIllllllII:FindFirstChild(_IlIlIIlIll) then _IIllllllII[_IlIlIIlIll]:Destroy() end
- local _IlIIlIIIlI = Instance.new("\083\099\114\101\101\110\071\117\105", _IIllllllII) _IlIIlIIIlI.Name = _IlIlIIlIll _IlIIlIIIlI.ResetOnSpawn = false local _llIllIIlIl = Instance.new("\084\101\120\116\066\117\116\116\111\110", _IlIIlIIIlI) _llIllIIlIl.Size = UDim2.new(0x0, 0x3C, 0x0, 0x3C) _llIllIIlIl.Position = UDim2.new(0.05, 0x0, 0.3, 0x0) _llIllIIlIl.BackgroundColor3 = Color3.fromRGB(0x12, 0x12, 0x18) _llIllIIlIl.Text = "\076\117\109\101\110\088\092\110\082\084\088" _llIllIIlIl.TextColor3 = Color3.fromRGB(0x0, 0xE1, 0xFF) _llIllIIlIl.Font = Enum.Font.SourceSansBold _llIllIIlIl.TextSize = 0xC _llIllIIlIl.Active = true Instance.new("\085\073\067\111\114\110\101\114", _llIllIIlIl).CornerRadius = UDim.new(0x0, 0xE) _lIllIIlIII(_llIllIIlIl) local _IlIIIIlIll = Instance.new("\070\114\097\109\101", _IlIIlIIIlI) _IlIIIIlIll.Name = "\077\097\105\110\087\105\110\100\111\119" _IlIIIIlIll.Size = UDim2.new(0x0, 0x140, 0x0, 0xF0) _IlIIIIlIll.Position = UDim2.new(0.05, 0x46, 0.3, 0x0) _IlIIIIlIll.BackgroundColor3 = Color3.fromRGB(0x10, 0x10, 0x16) _IlIIIIlIll.Visible = false _IlIIIIlIll.ClipsDescendants = true Instance.new("\085\073\067\111\114\110\101\114", _IlIIIIlIll).CornerRadius = UDim.new(0x0, 0xA) _lIllIIlIII(_IlIIIIlIll) local _lllIIIIllI = Instance.new("\070\114\097\109\101", _IlIIIIlIll) _lllIIIIllI.Size = UDim2.new(0x1, 0x0, 0x0, 0x1C) _lllIIIIllI.BackgroundColor3 = Color3.fromRGB(0x18, 0x18, 0x20) local _IlllIlIIll = Instance.new("\084\101\120\116\076\097\098\101\108", _lllIIIIllI) _IlllIlIIll.Size = UDim2.new(0x1, -0xA, 0x1, 0x0) _IlllIlIIll.Position = UDim2.new(0x0, 0xA, 0x0, 0x0) _IlllIlIIll.BackgroundTransparency = 0x1 _IlllIlIIll.Text = "\076\117\109\101\110\088\032\082\084\088\032\069\110\103\105\110\101\032\040\085\073\032\069\100\105\116\105\111\110\041" _IlllIlIIll.TextColor3 = Color3.fromRGB(0x0, 0xE1, 0xFF) _IlllIlIIll.Font = Enum.Font.SourceSansBold _IlllIlIIll.TextSize = 0xC _IlllIlIIll.TextXAlignment = Enum.TextXAlignment.Left _lIllIIlIII(_IlIIIIlIll, _lllIIIIllI) local _lllIIllIII = Instance.new("\083\099\114\111\108\108\105\110\103\070\114\097\109\101", _IlIIIIlIll) _lllIIllIII.Size = UDim2.new(0x0, 0x64, 0x1, -0x1C) _lllIIllIII.Position = UDim2.new(0x0, 0x0, 0x0, 0x1C) _lllIIllIII.BackgroundColor3 = Color3.fromRGB(0x14, 0x14, 0x1C) _lllIIllIII.CanvasSize = UDim2.new(0x0, 0x0, 0x0, 0xDC) _lllIIllIII.ScrollBarThickness = 0x2 local _lIIIIlllII = Instance.new("\085\073\076\105\115\116\076\097\121\111\117\116", _lllIIllIII) _lIIIIlllII.Padding = UDim.new(0x0, 0x4) _lIIIIlllII.HorizontalAlignment = Enum.HorizontalAlignment.Center local _IlIlIlIIII = Instance.new("\085\073\080\097\100\100\105\110\103", _lllIIllIII) _IlIlIlIIII.PaddingTop = UDim.new(0x0, 0x6) local _IlIlIlIlII = Instance.new("\070\114\097\109\101", _IlIIIIlIll) _IlIlIlIlII.Size = UDim2.new(0x1, -0x64, 0x1, -0x1C) _IlIlIlIlII.Position = UDim2.new(0x0, 0x64, 0x0, 0x1C) _IlIlIlIlII.BackgroundTransparency = 0x1 local _lllIlIllIl = nil local _lIIlllIIll = nil local function _IllIIIIlIl(tabName, icon, canvasHeight) local _llIIllIlII = Instance.new("\083\099\114\111\108\108\105\110\103\070\114\097\109\101", _IlIlIlIlII) _llIIllIlII.Size = UDim2.new(0x1, 0x0, 0x1, 0x0) _llIIllIlII.BackgroundTransparency = 0x1 _llIIllIlII.Visible = false _llIIllIlII.CanvasSize = UDim2.new(0x0, 0x0, 0x0, canvasHeight or 0xDC) _llIIllIlII.ScrollBarThickness = 0x3 local _llIIlIIllI = Instance.new("\085\073\076\105\115\116\076\097\121\111\117\116", _llIIllIlII) _llIIlIIllI.Padding = UDim.new(0x0, 0x5) _llIIlIIllI.HorizontalAlignment = Enum.HorizontalAlignment.Center local _llIIlllIll = Instance.new("\085\073\080\097\100\100\105\110\103", _llIIllIlII) _llIIlllIll.PaddingTop = UDim.new(0x0, 0x6) local _IIIlllIIIl = Instance.new("\084\101\120\116\066\117\116\116\111\110", _lllIIllIII) _IIIlllIIIl.Size = UDim2.new(0x0, 0x5A, 0x0, 0x1C) _IIIlllIIIl.BackgroundColor3 = Color3.fromRGB(0x1C, 0x1C, 0x26) _IIIlllIIIl.Text = icon .. "\032" .. tabName _IIIlllIIIl.TextColor3 = Color3.fromRGB(0xB4, 0xB4, 0xBE) _IIIlllIIIl.Font = Enum.Font.SourceSansSemibold _IIIlllIIIl.TextSize = 0xB Instance.new("\085\073\067\111\114\110\101\114", _IIIlllIIIl).CornerRadius = UDim.new(0x0, 0x6) local function _IllIIllIlI() if _lllIlIllIl then _lllIlIllIl.Visible = false end
- if _lIIlllIIll then _lIIlllIIll.BackgroundColor3 = Color3.fromRGB(0x1C, 0x1C, 0x26) _lIIlllIIll.TextColor3 = Color3.fromRGB(0xB4, 0xB4, 0xBE) end
- _llIIllIlII.Visible = true _IIIlllIIIl.BackgroundColor3 = Color3.fromRGB(0x0, 0x8C, 0xB4) _IIIlllIIIl.TextColor3 = Color3.fromRGB(0xFF, 0xFF, 0xFF) _lllIlIllIl = _llIIllIlII _lIIlllIIll = _IIIlllIIIl end
- _IIIlllIIIl.MouseButton1Click:Connect(_IllIIllIlI) return _llIIllIlII, _IIIlllIIIl, _IllIIllIlI end
- local function _IIIlllllll(_llIIllIlII, titleText) local _IllIlIlIll = Instance.new("\084\101\120\116\076\097\098\101\108", _llIIllIlII) _IllIlIlIll.Size = UDim2.new(0x0, 0xC3, 0x0, 0x12) _IllIlIlIll.BackgroundTransparency = 0x1 _IllIlIlIll.Text = titleText _IllIlIlIll.TextColor3 = Color3.fromRGB(0x0, 0xE1, 0xFF) _IllIlIlIll.Font = Enum.Font.SourceSansBold _IllIlIlIll.TextSize = 0xB _IllIlIlIll.TextXAlignment = Enum.TextXAlignment.Center return _IllIlIlIll end
- local function _IIIIIllIII(_llIIllIlII, text, color, callback) local _llIIIlllll = Instance.new("\084\101\120\116\066\117\116\116\111\110", _llIIllIlII) _llIIIlllll.Size = UDim2.new(0x0, 0xC3, 0x0, 0x20) _llIIIlllll.BackgroundColor3 = color or Color3.fromRGB(0x20, 0x20, 0x2C) _llIIIlllll.Text = text _llIIIlllll.TextColor3 = Color3.fromRGB(0xF0, 0xF0, 0xF0) _llIIIlllll.Font = Enum.Font.SourceSansSemibold _llIIIlllll.TextSize = 0xC Instance.new("\085\073\067\111\114\110\101\114", _llIIIlllll).CornerRadius = UDim.new(0x0, 0x6) _llIIIlllll.MouseButton1Click:Connect(callback) return _llIIIlllll end
- local function _llIllIIllI(_llIIllIlII, titleText, descText) local _lIllIIIIIl = Instance.new("\070\114\097\109\101", _llIIllIlII) _lIllIIIIIl.Size = UDim2.new(0x0, 0xC3, 0x0, 0x2E) _lIllIIIIIl.BackgroundColor3 = Color3.fromRGB(0x18, 0x18, 0x22) Instance.new("\085\073\067\111\114\110\101\114", _lIllIIIIIl).CornerRadius = UDim.new(0x0, 0x6) local _IIlIIlIIII = Instance.new("\084\101\120\116\076\097\098\101\108", _lIllIIIIIl) _IIlIIlIIII.Size = UDim2.new(0x1, -0xA, 0x0, 0x12) _IIlIIlIIII.Position = UDim2.new(0x0, 0x5, 0x0, 0x4) _IIlIIlIIII.BackgroundTransparency = 0x1 _IIlIIlIIII.Text = titleText _IIlIIlIIII.TextColor3 = Color3.fromRGB(0x0, 0xE1, 0xFF) _IIlIIlIIII.Font = Enum.Font.SourceSansBold _IIlIIlIIII.TextSize = 0xC _IIlIIlIIII.TextXAlignment = Enum.TextXAlignment.Left local _IIIIIIlllI = Instance.new("\084\101\120\116\076\097\098\101\108", _lIllIIIIIl) _IIIIIIlllI.Size = UDim2.new(0x1, -0xA, 0x0, 0x14) _IIIIIIlllI.Position = UDim2.new(0x0, 0x5, 0x0, 0x14) _IIIIIIlllI.BackgroundTransparency = 0x1 _IIIIIIlllI.Text = descText _IIIIIIlllI.TextColor3 = Color3.fromRGB(0xB4, 0xB4, 0xBE) _IIIIIIlllI.Font = Enum.Font.SourceSans _IIIIIIlllI.TextSize = 0xA _IIIIIIlllI.TextWrapped = true _IIIIIIlllI.TextXAlignment = Enum.TextXAlignment.Left return _lIllIIIIIl end
- local _IlIIIIllll, pBtn, selectPresetsTab = _IllIIIIlIl("\080\114\101\115\101\116\115", "\55356\57256", 0xB4) local _llIIIlllll, lBtn = _IllIIIIlIl("\076\105\103\104\116\105\110\103", "\55357\56481", 0xDC) local _lllIIIIIII, eBtn = _IllIIIIlIl("\069\102\102\101\099\116\115", "\55356\57098", 0xDC) local _lllIlIIlIl, uBtn = _IllIIIIlIl("\085\112\100\097\116\101\115", "\55357\56540", 0xB4) local _IlllIlIlIl, cBtn = _IllIIIIlIl("\067\114\101\100\105\116\115", "\55357\56421", 0xF0) local _lIllllIllI, sBtn = _IllIIIIlIl("\083\121\115\116\101\109", "\9881\65039", 0xB4) _IIIlllllll(_IlIIIIllll, "\9728\65039\032\065\099\116\105\118\101\032\068\097\121\032\080\114\101\115\101\116\115") _IIIIIllIII(_IlIIIIllll, "\55357\56568\032\080\104\111\116\111\114\101\097\108\105\115\109\032\068\083\076\082", Color3.fromRGB(0x14, 0x50, 0x46), function () _IIllllIIII("\080\104\111\116\111\114\101\097\108\105\115\109") end
- ) _IIIIIllIII(_IlIIIIllll, "\55356\57093\032\071\111\108\100\101\110\032\072\111\117\114\032\083\117\110\115\101\116", Color3.fromRGB(0x5A, 0x37, 0x14), function () _IIllllIIII("\071\111\108\100\101\110\072\111\117\114") end
- ) _IIIIIllIII(_llIIIlllll, "\55357\56580\032\068\121\110\097\109\105\099\032\068\097\121\045\078\105\103\104\116", Color3.fromRGB(0x23, 0x3C, 0x50), _IIIIIlIIIl) _IIIIIllIII(_llIIIlllll, "\55356\57256\032\067\121\099\108\101\032\067\111\110\116\114\097\115\116\032\080\117\110\099\104", Color3.fromRGB(0x32, 0x2D, 0x41), _IlIllllllI) _IIIIIllIII(_llIIIlllll, "\55357\56481\032\066\111\111\115\116\032\076\097\109\112\032\071\108\111\119", Color3.fromRGB(0x3C, 0x32, 0x19), _llIIllIlIl) _IIIIIllIII(_lllIIIIIII, "\55356\57098\032\069\110\104\097\110\099\101\032\079\099\101\097\110\032\087\097\116\101\114", Color3.fromRGB(0x14, 0x41, 0x5A), _llIlIllIll) local _IlIIIIIlII = Instance.new("\070\114\097\109\101", _lllIIIIIII) _IlIIIIIlII.Size = UDim2.new(0x0, 0xC3, 0x0, 0x20) _IlIIIIIlII.BackgroundColor3 = Color3.fromRGB(0x19, 0x19, 0x23) Instance.new("\085\073\067\111\114\110\101\114", _IlIIIIIlII).CornerRadius = UDim.new(0x0, 0x6) local _lIlIIIlIII = Instance.new("\084\101\120\116\066\111\120", _IlIIIIIlII) _lIlIIIlIII.Size = UDim2.new(0x1, -0xA, 0x1, 0x0) _lIlIIIlIII.Position = UDim2.new(0x0, 0x5, 0x0, 0x0) _lIlIIIlIII.BackgroundTransparency = 0x1 _lIlIIIlIII.PlaceholderText = "\080\097\115\116\101\032\083\107\121\032\065\115\115\101\116\032\073\068\046\046\046" _lIlIIIlIII.Text = "" _lIlIIIlIII.TextColor3 = Color3.fromRGB(0xFF, 0xFF, 0xFF) _lIlIIIlIII.PlaceholderColor3 = Color3.fromRGB(0x96, 0x96, 0x96) _lIlIIIlIII.Font = Enum.Font.SourceSans _lIlIIIlIII.TextSize = 0xB _lIlIIIlIII.FocusLost:Connect( function (enterPressed) if enterPressed and _lIlIIIlIII.Text ~= "" then _lIlIlIIIII(_lIlIIIlIII.Text) end
- end
- ) _llIllIIllI(_lllIlIIlIl, "\118\049\046\048\032\073\110\105\116\105\097\108\032\082\101\108\101\097\115\101
+local Lighting = game:GetService("Lighting")
+local Workspace = game:GetService("Workspace")
+local Players = game:GetService("Players")
+local StarterGui = game:GetService("StarterGui")
+local UserInputService = game:GetService("UserInputService")
+local RunService = game:GetService("RunService")
+
+local LocalPlayer = Players.LocalPlayer or Players.PlayerAdded:Wait()
+
+-- Safe UI Parenting
+local TargetParent = nil
+if gethui then
+    TargetParent = gethui()
+elseif game:GetService("CoreGui"):FindFirstChild("RobloxGui") then
+    TargetParent = game:GetService("CoreGui")
+else
+    TargetParent = LocalPlayer:WaitForChild("PlayerGui")
+end
+
+local function notify(title, text)
+    pcall(function()
+        StarterGui:SetCore("SendNotification", {
+            Title = title,
+            Text = text,
+            Duration = 2
+        })
+    end)
+end
+
+-- Dedicated Effects Folder
+local RTXFolder = Lighting:FindFirstChild("LumenX_RTX")
+if not RTXFolder then
+    RTXFolder = Instance.new("Folder")
+    RTXFolder.Name = "LumenX_RTX"
+    RTXFolder.Parent = Lighting
+end
+
+-- Game Defaults
+local originalLighting = {
+    Brightness = Lighting.Brightness,
+    ExposureCompensation = Lighting.ExposureCompensation,
+    Ambient = Lighting.Ambient,
+    OutdoorAmbient = Lighting.OutdoorAmbient,
+    GlobalShadows = Lighting.GlobalShadows,
+    ClockTime = Lighting.ClockTime,
+    ShadowSoftness = Lighting.ShadowSoftness
+}
+
+-- Presets Data
+local PRESETS = {
+    Photorealism = {
+        Brightness = 2.6,
+        Exposure = 0.18,
+        Ambient = Color3.fromRGB(12, 14, 20),
+        OutdoorAmbient = Color3.fromRGB(40, 45, 55),
+        ClockTime = 16.2,
+        ShadowSoftness = 0.1,
+        Bloom = { Intensity = 0.45, Size = 24, Threshold = 0.78 },
+        CC = { Brightness = 0.03, Contrast = 0.38, Saturation = 0.22, Tint = Color3.fromRGB(255, 246, 235) },
+        Atmosphere = { Density = 0.28, Offset = 0.4, Color = Color3.fromRGB(195, 175, 160), Glare = 0.55, Haze = 1.2 },
+        SunRays = { Intensity = 0.25, Spread = 0.9 }
+    },
+    GoldenHour = {
+        Brightness = 2.8,
+        Exposure = 0.22,
+        Ambient = Color3.fromRGB(25, 18, 15),
+        OutdoorAmbient = Color3.fromRGB(75, 50, 40),
+        ClockTime = 17.2,
+        ShadowSoftness = 0.08,
+        Bloom = { Intensity = 0.65, Size = 30, Threshold = 0.7 },
+        CC = { Brightness = 0.04, Contrast = 0.42, Saturation = 0.35, Tint = Color3.fromRGB(255, 225, 190) },
+        Atmosphere = { Density = 0.32, Offset = 0.5, Color = Color3.fromRGB(230, 160, 120), Glare = 0.85, Haze = 1.5 },
+        SunRays = { Intensity = 0.38, Spread = 0.95 }
+    }
+}
+
+-- Safe Sky Cleanup
+local function clearCustomSky()
+    local customSky = Lighting:FindFirstChild("RTX_CustomSky")
+    if customSky then
+        customSky:Destroy()
+    end
+end
+
+-- Skybox Applier
+local function applySkybox(skyData)
+    clearCustomSky()
+    local sky = Instance.new("Sky")
+    sky.Name = "RTX_CustomSky"
+    
+    if type(skyData) == "string" then
+        local asset = "rbxassetid://" .. skyData:gsub("%D", "")
+        sky.SkyboxBk = asset; sky.SkyboxDn = asset; sky.SkyboxFt = asset
+        sky.SkyboxLf = asset; sky.SkyboxRt = asset; sky.SkyboxUp = asset
+    elseif type(skyData) == "table" then
+        sky.SkyboxBk = skyData.Bk; sky.SkyboxDn = skyData.Dn; sky.SkyboxFt = skyData.Ft
+        sky.SkyboxLf = skyData.Lf; sky.SkyboxRt = skyData.Rt; sky.SkyboxUp = skyData.Up
+    end
+
+    sky.Parent = Lighting
+    notify("Skybox", "Applied Custom Skybox")
+end
+
+-- Engine Loader
+local function loadPreset(presetName)
+    local config = PRESETS[presetName] or PRESETS.Photorealism
+    RTXFolder:ClearAllChildren()
+    clearCustomSky()
+
+    Lighting.GlobalShadows = true
+    Lighting.Brightness = config.Brightness
+    Lighting.ExposureCompensation = config.Exposure
+    Lighting.Ambient = config.Ambient
+    Lighting.OutdoorAmbient = config.OutdoorAmbient
+    Lighting.ClockTime = config.ClockTime
+    Lighting.ShadowSoftness = config.ShadowSoftness
+
+    local cc = Instance.new("ColorCorrectionEffect", RTXFolder)
+    cc.Name = "RTX_CC"
+    cc.Brightness = config.CC.Brightness
+    cc.Contrast = config.CC.Contrast
+    cc.Saturation = config.CC.Saturation
+    cc.TintColor = config.CC.Tint
+
+    local bloom = Instance.new("BloomEffect", RTXFolder)
+    bloom.Name = "RTX_Bloom"
+    bloom.Intensity = config.Bloom.Intensity
+    bloom.Size = config.Bloom.Size
+    bloom.Threshold = config.Bloom.Threshold
+
+    local atm = Instance.new("Atmosphere", RTXFolder)
+    atm.Name = "RTX_Atmosphere"
+    atm.Density = config.Atmosphere.Density
+    atm.Offset = config.Atmosphere.Offset
+    atm.Color = config.Atmosphere.Color
+    atm.Glare = config.Atmosphere.Glare
+    atm.Haze = config.Atmosphere.Haze
+
+    if config.SunRays then
+        local sun = Instance.new("SunRaysEffect", RTXFolder)
+        sun.Name = "RTX_SunRays"
+        sun.Intensity = config.SunRays.Intensity
+        sun.Spread = config.SunRays.Spread
+    end
+
+    notify("LumenX Engine", "Loaded Preset: " .. presetName)
+end
+
+-- Tweak Functions
+local dayNightConn = nil
+local function toggleDayNightCycle()
+    if dayNightConn then
+        dayNightConn:Disconnect()
+        dayNightConn = nil
+        notify("Dynamic Cycle", "Day-Night Cycle: PAUSED")
+    else
+        dayNightConn = RunService.Heartbeat:Connect(function(dt)
+            Lighting.ClockTime = (Lighting.ClockTime + (dt * 0.15)) % 24
+        end)
+        notify("Dynamic Cycle", "Day-Night Cycle: RUNNING")
+    end
+end
+
+local contrastLevels = { 0.25, 0.40, 0.55 }
+local contrastIdx = 1
+local function cycleContrast()
+    contrastIdx = (contrastIdx % #contrastLevels) + 1
+    local cc = RTXFolder:FindFirstChild("RTX_CC")
+    if cc then
+        cc.Contrast = contrastLevels[contrastIdx]
+        notify("Contrast", "Contrast Level: " .. tostring(contrastLevels[contrastIdx]))
+    end
+end
+
+local lightsBoosted = false
+local function boostWorkspaceLights()
+    lightsBoosted = not lightsBoosted
+    task.spawn(function()
+        local count = 0
+        local descendants = Workspace:GetDescendants()
+        for i = 1, #descendants do
+            local obj = descendants[i]
+            if obj:IsA("PointLight") or obj:IsA("SpotLight") or obj:IsA("SurfaceLight") then
+                pcall(function()
+                    if lightsBoosted then
+                        obj.Brightness = obj.Brightness * 2.2
+                        obj.Range = obj.Range * 1.5
+                    else
+                        obj.Brightness = obj.Brightness / 2.2
+                        obj.Range = obj.Range / 1.5
+                    end
+                    count = count + 1
+                end)
+            end
+        end
+        notify("Light Booster", lightsBoosted and ("Boosted " .. tostring(count) .. " Lights") or "Restored Lights")
+    end)
+end
+
+local function applyOceanWater()
+    pcall(function()
+        local terrain = Workspace:FindFirstChildOfClass("Terrain")
+        if terrain then
+            terrain.WaterColor = Color3.fromRGB(8, 75, 110)
+            terrain.WaterTransparency = 0.4
+            terrain.WaterReflectance = 1.0
+            terrain.WaterWaveSize = 0.32
+            terrain.WaterWaveSpeed = 20
+        end
+    end)
+    notify("Water Engine", "Ocean Physics Applied")
+end
+
+local function resetLighting()
+    if dayNightConn then
+        dayNightConn:Disconnect()
+        dayNightConn = nil
+    end
+    RTXFolder:ClearAllChildren()
+    clearCustomSky()
+
+    for prop, val in pairs(originalLighting) do
+        pcall(function() Lighting[prop] = val end)
+    end
+    notify("LumenX Engine", "Restored Game Defaults")
+end
+
+-- Touch Drag Handler
+local function makeDraggable(guiObject, handleObject)
+    local handle = handleObject or guiObject
+    local dragging = false
+    local dragStart, startPos
+
+    handle.InputBegan:Connect(function(input)
+        if input.UserInputType == Enum.UserInputType.MouseButton1 or input.UserInputType == Enum.UserInputType.Touch then
+            dragging = true
+            dragStart = input.Position
+            startPos = guiObject.Position
+        end
+    end)
+
+    handle.InputEnded:Connect(function(input)
+        if input.UserInputType == Enum.UserInputType.MouseButton1 or input.UserInputType == Enum.UserInputType.Touch then
+            dragging = false
+        end
+    end)
+
+    UserInputService.InputChanged:Connect(function(input)
+        if dragging and (input.UserInputType == Enum.UserInputType.MouseMovement or input.UserInputType == Enum.UserInputType.Touch) then
+            local delta = input.Position - dragStart
+            guiObject.Position = UDim2.new(
+                startPos.X.Scale, startPos.X.Offset + delta.X,
+                startPos.Y.Scale, startPos.Y.Offset + delta.Y
+            )
+        end
+    end)
+end
+
+-- UI LIBRARY CONSTRUCTION
+local uiName = "LumenX_UILibrary_UI"
+if TargetParent:FindFirstChild(uiName) then
+    TargetParent[uiName]:Destroy()
+end
+
+local sg = Instance.new("ScreenGui", TargetParent)
+sg.Name = uiName
+sg.ResetOnSpawn = false
+
+-- Floating Toggle Button
+local toggle = Instance.new("TextButton", sg)
+toggle.Size = UDim2.new(0, 60, 0, 60)
+toggle.Position = UDim2.new(0.05, 0, 0.3, 0)
+toggle.BackgroundColor3 = Color3.fromRGB(18, 18, 24)
+toggle.Text = "LumenX\nRTX"
+toggle.TextColor3 = Color3.fromRGB(0, 225, 255)
+toggle.Font = Enum.Font.SourceSansBold
+toggle.TextSize = 12
+toggle.Active = true
+Instance.new("UICorner", toggle).CornerRadius = UDim.new(0, 14)
+makeDraggable(toggle)
+
+-- Main Library Window Frame
+local mainWindow = Instance.new("Frame", sg)
+mainWindow.Name = "MainWindow"
+mainWindow.Size = UDim2.new(0, 320, 0, 240)
+mainWindow.Position = UDim2.new(0.05, 70, 0.3, 0)
+mainWindow.BackgroundColor3 = Color3.fromRGB(16, 16, 22)
+mainWindow.Visible = false
+mainWindow.ClipsDescendants = true
+Instance.new("UICorner", mainWindow).CornerRadius = UDim.new(0, 10)
+makeDraggable(mainWindow)
+
+-- Header Bar
+local header = Instance.new("Frame", mainWindow)
+header.Size = UDim2.new(1, 0, 0, 28)
+header.BackgroundColor3 = Color3.fromRGB(24, 24, 32)
+
+local headerTitle = Instance.new("TextLabel", header)
+headerTitle.Size = UDim2.new(1, -10, 1, 0)
+headerTitle.Position = UDim2.new(0, 10, 0, 0)
+headerTitle.BackgroundTransparency = 1
+headerTitle.Text = "LumenX RTX Engine (UI Edition)"
+headerTitle.TextColor3 = Color3.fromRGB(0, 225, 255)
+headerTitle.Font = Enum.Font.SourceSansBold
+headerTitle.TextSize = 12
+headerTitle.TextXAlignment = Enum.TextXAlignment.Left
+makeDraggable(mainWindow, header)
+
+-- Left Sidebar Navigation
+local sidebar = Instance.new("ScrollingFrame", mainWindow)
+sidebar.Size = UDim2.new(0, 100, 1, -28)
+sidebar.Position = UDim2.new(0, 0, 0, 28)
+sidebar.BackgroundColor3 = Color3.fromRGB(20, 20, 28)
+sidebar.CanvasSize = UDim2.new(0, 0, 0, 220)
+sidebar.ScrollBarThickness = 2
+
+local sidebarLayout = Instance.new("UIListLayout", sidebar)
+sidebarLayout.Padding = UDim.new(0, 4)
+sidebarLayout.HorizontalAlignment = Enum.HorizontalAlignment.Center
+
+local sidebarPadding = Instance.new("UIPadding", sidebar)
+sidebarPadding.PaddingTop = UDim.new(0, 6)
+
+-- Right Content Container
+local contentContainer = Instance.new("Frame", mainWindow)
+contentContainer.Size = UDim2.new(1, -100, 1, -28)
+contentContainer.Position = UDim2.new(0, 100, 0, 28)
+contentContainer.BackgroundTransparency = 1
+
+local activeTab = nil
+local activeTabBtn = nil
+
+-- Create Tab Handler
+local function createTab(tabName, icon, canvasHeight)
+    local tabScroll = Instance.new("ScrollingFrame", contentContainer)
+    tabScroll.Size = UDim2.new(1, 0, 1, 0)
+    tabScroll.BackgroundTransparency = 1
+    tabScroll.Visible = false
+    tabScroll.CanvasSize = UDim2.new(0, 0, 0, canvasHeight or 220)
+    tabScroll.ScrollBarThickness = 3
+
+    local layout = Instance.new("UIListLayout", tabScroll)
+    layout.Padding = UDim.new(0, 5)
+    layout.HorizontalAlignment = Enum.HorizontalAlignment.Center
+
+    local pad = Instance.new("UIPadding", tabScroll)
+    pad.PaddingTop = UDim.new(0, 6)
+
+    -- Sidebar Tab Button
+    local tabBtn = Instance.new("TextButton", sidebar)
+    tabBtn.Size = UDim2.new(0, 90, 0, 28)
+    tabBtn.BackgroundColor3 = Color3.fromRGB(28, 28, 38)
+    tabBtn.Text = icon .. " " .. tabName
+    tabBtn.TextColor3 = Color3.fromRGB(180, 180, 190)
+    tabBtn.Font = Enum.Font.SourceSansSemibold
+    tabBtn.TextSize = 11
+    Instance.new("UICorner", tabBtn).CornerRadius = UDim.new(0, 6)
+
+    local function selectThisTab()
+        if activeTab then
+            activeTab.Visible = false
+        end
+        if activeTabBtn then
+            activeTabBtn.BackgroundColor3 = Color3.fromRGB(28, 28, 38)
+            activeTabBtn.TextColor3 = Color3.fromRGB(180, 180, 190)
+        end
+
+        tabScroll.Visible = true
+        tabBtn.BackgroundColor3 = Color3.fromRGB(0, 140, 180)
+        tabBtn.TextColor3 = Color3.fromRGB(255, 255, 255)
+
+        activeTab = tabScroll
+        activeTabBtn = tabBtn
+    end
+
+    tabBtn.MouseButton1Click:Connect(selectThisTab)
+
+    return tabScroll, tabBtn, selectThisTab
+end
+
+-- Create Category Section Header Label
+local function createSectionHeader(tabScroll, titleText)
+    local label = Instance.new("TextLabel", tabScroll)
+    label.Size = UDim2.new(0, 195, 0, 18)
+    label.BackgroundTransparency = 1
+    label.Text = titleText
+    label.TextColor3 = Color3.fromRGB(0, 225, 255)
+    label.Font = Enum.Font.SourceSansBold
+    label.TextSize = 11
+    label.TextXAlignment = Enum.TextXAlignment.Center
+    return label
+end
+
+-- Create Button Element
+local function createTabButton(tabScroll, text, color, callback)
+    local btn = Instance.new("TextButton", tabScroll)
+    btn.Size = UDim2.new(0, 195, 0, 32)
+    btn.BackgroundColor3 = color or Color3.fromRGB(32, 32, 44)
+    btn.Text = text
+    btn.TextColor3 = Color3.fromRGB(240, 240, 240)
+    btn.Font = Enum.Font.SourceSansSemibold
+    btn.TextSize = 12
+    Instance.new("UICorner", btn).CornerRadius = UDim.new(0, 6)
+    btn.MouseButton1Click:Connect(callback)
+    return btn
+end
+
+-- Create Info Card Element
+local function createCard(tabScroll, titleText, descText)
+    local card = Instance.new("Frame", tabScroll)
+    card.Size = UDim2.new(0, 195, 0, 46)
+    card.BackgroundColor3 = Color3.fromRGB(24, 24, 34)
+    Instance.new("UICorner", card).CornerRadius = UDim.new(0, 6)
+
+    local title = Instance.new("TextLabel", card)
+    title.Size = UDim2.new(1, -10, 0, 18)
+    title.Position = UDim2.new(0, 5, 0, 4)
+    title.BackgroundTransparency = 1
+    title.Text = titleText
+    title.TextColor3 = Color3.fromRGB(0, 225, 255)
+    title.Font = Enum.Font.SourceSansBold
+    title.TextSize = 12
+    title.TextXAlignment = Enum.TextXAlignment.Left
+
+    local desc = Instance.new("TextLabel", card)
+    desc.Size = UDim2.new(1, -10, 0, 20)
+    desc.Position = UDim2.new(0, 5, 0, 20)
+    desc.BackgroundTransparency = 1
+    desc.Text = descText
+    desc.TextColor3 = Color3.fromRGB(180, 180, 190)
+    desc.Font = Enum.Font.SourceSans
+    desc.TextSize = 10
+    desc.TextWrapped = true
+    desc.TextXAlignment = Enum.TextXAlignment.Left
+
+    return card
+end
+
+-- BUILD ALL TABS
+local presetsTab, pBtn, selectPresetsTab = createTab("Presets", "🎨", 180)
+local lightingTab, lBtn = createTab("Lighting", "💡", 220)
+local effectsTab, eBtn = createTab("Effects", "🌊", 220)
+local updatesTab, uBtn = createTab("Updates", "📜", 180)
+local creditsTab, cBtn = createTab("Credits", "👥", 240)
+local systemTab, sBtn = createTab("System", "⚙️", 180)
+
+-- 1. PRESETS TAB (Only Active Day Presets Included)
+createSectionHeader(presetsTab, "☀️ Active Day Presets")
+createTabButton(presetsTab, "📸 Photorealism DSLR", Color3.fromRGB(20, 80, 70), function() loadPreset("Photorealism") end)
+createTabButton(presetsTab, "🌅 Golden Hour Sunset", Color3.fromRGB(90, 55, 20), function() loadPreset("GoldenHour") end)
+
+-- 2. LIGHTING TAB
+createTabButton(lightingTab, "🔄 Dynamic Day-Night", Color3.fromRGB(35, 60, 80), toggleDayNightCycle)
+createTabButton(lightingTab, "🎨 Cycle Contrast Punch", Color3.fromRGB(50, 45, 65), cycleContrast)
+createTabButton(lightingTab, "💡 Boost Lamp Glow", Color3.fromRGB(60, 50, 25), boostWorkspaceLights)
+
+-- 3. EFFECTS TAB
+createTabButton(effectsTab, "🌊 Enhance Ocean Water", Color3.fromRGB(20, 65, 90), applyOceanWater)
+
+-- Custom Asset Textbox
+local inputFrame = Instance.new("Frame", effectsTab)
+inputFrame.Size = UDim2.new(0, 195, 0, 32)
+inputFrame.BackgroundColor3 = Color3.fromRGB(25, 25, 35)
+Instance.new("UICorner", inputFrame).CornerRadius = UDim.new(0, 6)
+
+local textBox = Instance.new("TextBox", inputFrame)
+textBox.Size = UDim2.new(1, -10, 1, 0)
+textBox.Position = UDim2.new(0, 5, 0, 0)
+textBox.BackgroundTransparency = 1
+textBox.PlaceholderText = "Paste Sky Asset ID..."
+textBox.Text = ""
+textBox.TextColor3 = Color3.fromRGB(255, 255, 255)
+textBox.PlaceholderColor3 = Color3.fromRGB(150, 150, 150)
+textBox.Font = Enum.Font.SourceSans
+textBox.TextSize = 11
+
+textBox.FocusLost:Connect(function(enterPressed)
+    if enterPressed and textBox.Text ~= "" then
+        applySkybox(textBox.Text)
+    end
+end)
+
+-- 4. UPDATES TAB
+createCard(updatesTab, "v1.0 Initial Release", "Official V1 UI Library release featuring Photorealism & Golden Hour presets.")
+createCard(updatesTab, "Presets Available", "Photorealism & Golden Hour active.")
+createCard(updatesTab, "Information.", "Cyberpunk & Ultra Night Shader Will Coming Soon!")
+
+-- 5. CREDITS TAB
+createCard(creditsTab, "Developer - Maxwell", "Scripted & Optimized for Mobile Executors (Delta, CodeX, Arceus X).")
+createCard(creditsTab, "UI Design", "Custom UI Library with Sidebar Navigation & Section Labeling.")
+createCard(creditsTab, "Compatibility", "Built using gethui() protection & thread-safe task.spawn loops.")
+
+-- 6. SYSTEM TAB
+createTabButton(systemTab, "🔴 Restore Game Defaults", Color3.fromRGB(90, 30, 30), resetLighting)
+
+-- Open Default First Tab Safely
+selectPresetsTab()
+
+toggle.MouseButton1Click:Connect(function()
+    mainWindow.Visible = not mainWindow.Visible
+end)
+
+-- Initialize Engine
+loadPreset("Photorealism")
